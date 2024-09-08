@@ -1,18 +1,14 @@
 from django.shortcuts import render
 from .models import Product  # Import model Product
 
-def home(request):
-    context = {
-        'app_name': 'Altique',
-        'student_name': 'Talitha Zenda Shakira',
-        'student_class': 'PBP A'
-    }
-    return render(request, 'home.html', context)
+from django.shortcuts import render
 
-
-def product_list(request):
-    products = Product.objects.all()  # Ambil semua produk
+def show_main(request):
     context = {
-        'products': products  # Kirim daftar produk ke template
+        'nama_app' : 'Altique!',
+        'npm' : '2306245554',
+        'name': 'Talitha Zenda Shakira',
+        'class': 'PBP A'
     }
-    return render(request, 'product_list.html', context)
+
+    return render(request, "main.html", context)
