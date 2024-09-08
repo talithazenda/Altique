@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daftar Produk</title>
+</head>
+<body>
+    <h1>Daftar Produk</h1>
+    <ul>
+        {% for product in products %}
+        <li>
+            <h2>{{ product.name }}</h2>
+            <p>Harga: Rp {{ product.price }}</p>
+            <p>Deskripsi: {{ product.description }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
