@@ -35,15 +35,8 @@ urlpatterns = [
 
 2. Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html.
 
-Visualisasi proses : 
-Client Request --> urls.py --> views.py --> models.py --> templates --> Client Response
-
-(a.) Client request : User mengirimkan request dengan mengakses URL tertentu di browser.
-(b.) urls.py : Django akan mapping URL yang diakses oleh user ke fungsi view yang sesuai. 
-(c.) views.py : Terjadinya pemrosesan logika bisnis dan meminta data dari models.py
-(d.) models.py : Django ORM mengambil data dari database sesuai dengan model yang telah didefinisikan.
-(e.) templates : Data yang didapat dari models kemudian diolah dan ditampilkan di template dalam bentuk HTML.
-(f.) Client response : Hasil akhir yang berbentuk HTML dan dikirim kembali ke browser untuk ditampilkan kepada user.
+Penjelasan proses req client ke web dapat dilihat pada link berikut :
+https://drive.google.com/file/d/1ZbhggQMgKgRQhvkeKI6X9x0yAadGEu-G/view?usp=drivesdk
 
 3. Jelaskan fungsi git dalam pengembangan perangkat lunak!
 (a.) Version control: Git dapat membuat developer untuk melacak perubahan kode secara historis. Jadi, setiap perubahan yang dilakukan dapat dicatat dan dikembalikan jika diperlukan.
