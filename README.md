@@ -50,4 +50,4 @@ Sesuai yang saya ketahui, framework Django menyediakan banyak fitur seperti ORM,
 
 5. Mengapa model pada Django disebut sebagai ORM?
 
-Hal tersebut disebabkan karena Django dapat berinteraksi dengan database menggunakan objek Python, bukan dengan query SQL langsung. Pada Django juga memudahkan para developer untuk menggunakan kelas dan objek Python tanpa perlu menulis query SQL secara manual. Dengan ORM, interaksi dengan database lebih aman dari kesalahan sintaks SQL, dan juga memastikan data yang konsisten.
+Hal tersebut disebabkan karena Django dapat berinteraksi dengan database menggunakan objek Python, bukan dengan query SQL langsung. Pada Django juga memudahkan para developer untuk menggunakan kelas dan objek Python tanpa perlu menulis query SQL secara manual. Dengan ORM, interaksi dengan database lebih aman dari kesalahan sintaks SQL dan juga memastikan data yang konsisten.
