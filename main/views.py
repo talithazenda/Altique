@@ -20,7 +20,7 @@ def show_items(request):
     context = {
         'items': items,
     }
-    return render(request, 'items_list.html', context)
+    return render(request, 'item_list.html', context)
 
 def add_item_barang(request):
     form = ItemBarangForm(request.POST or None)
@@ -28,7 +28,7 @@ def add_item_barang(request):
         form.save()
         return redirect('main:show_items')  # Arahkan ke show_items setelah menambah item
     context = {'form': form}
-    return render(request, 'main/add_item_barang.html', context)
+    return render(request, 'add_item_barang.html', context)
 
 
 def show_xml(request):
