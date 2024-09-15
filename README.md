@@ -19,7 +19,7 @@ class Product(models.Model):
     description = models.TextField()
 
 (e.) Setelah itu, saya membuat fungsi product_list di main/views.py untuk mengambil semua data produk dari database dan mengirimkannya ke template:
-def product_list(request):
+# def product_list(request):
     products = Product.objects.all()
     return render(request, 'product_list.html', {'products': products})
 

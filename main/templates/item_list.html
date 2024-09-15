@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Daftar Item Barang</h1>
+<a href="{% url 'main:add_item_barang' %}">Tambah Item Barang Baru</a>
+<ul>
+    {% for item in items %}
+    <li>{{ item.name }} - {{ item.price }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
