@@ -1,13 +1,24 @@
+<!-- main/templates/main/base.html -->
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    {% block meta %} {% endblock meta %}
-  </head>
-
-  <body>
-    {% block content %} {% endblock content %}
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ nama_app }}</title>
+    <!-- Mengimpor font Poppins dari Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'main/styles.css' %}">
+</head>
+<body>
+    <nav>
+        <a href="{% url 'main:show_main' %}">Home</a> |
+        <a href="{% url 'main:show_items' %}">Items</a> |
+        <a href="{% url 'main:add_item_barang' %}">Add Item</a>
+    </nav>
+    {% block content %}
+    {% endblock %}
+</body>
 </html>

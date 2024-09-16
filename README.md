@@ -1,53 +1,43 @@
-1. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+1. Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
+    Data delivery dapat membuat komunikasi yang efektif dan efesien, sehingga data dapat ditransfer secara akurat dan tepat waktu. Selain itu, data delivery juga memastikan bahwa semua bagian platform memiliki informasi yang sama dan data harus disinkronkan secara real-time. Dengan mekanisme data delivery yang baik, data dapat dikirimkan dengan cara yang konsisten, mengurangi risiko kehilangan data atau ketidaksesuaian data.
 
-(a.) Saya membuat pryek dhango baru dengan memasukkan perintah berikut di cmd folder PBP saya dengan nama "Altique": 
-django-admin startproject Altique
+2. Menurutmu, mana yang lebih baik antara XML dan JSON? Mengapa JSON lebih populer dibandingkan XML?
+    Menurut saya, dibanding XML, JSON memiliki kelebihan yang lebih unggul. Beberapa kelebihannya yaitu :
+        - JSON memiliki file size yang lebih kecil sehingga membuat transmisi data lebih cepat
+        - JSON lebih sederhana, mudah dibaca, dan mudah dipahami ketika sedang bekerja dengan struktur data kompleks
+        - JSON lebih intuitif, dimana secara langsung merepresentasikan struktur daya seperti list, dict, dan int.
+    Namun, dalam konsep metadata, XML lebih cocok digunakan karena memiliki fitur semacamatribute, schema, dan namesapece.
+    Selanjutnya, JSON bisa dibilang cukup populer disebabkan pada app web modern zaman sekarang sering sekali menggunakan JavaScript. Maka dari itu, JSON lebih efisien untuk pertukaran data antara server dan klien dalam format RESTful API.
 
-(b.) Setelah proyek dibuat, saya membuat aplikasi bernama main menggunakan perintah:
-python manage.py startapp main
+3.  Jelaskan fungsi dari method is_valid() pada form Django! Mengapa kita membutuhkan method tersebut?
+    Method is_valid() digunakan untuk mengecek apakah data kita sudah sesuai dengan aturan validasi yang udah didefinisikan belum pada form. Jika form sudah valid, maka data yang sudah ter-validate akan disimpan di form.cleaned_data. Sehingga, hal ini memungkinkan kita untuk mengakses data yang sudah dibersihkan dan terverifikasi.
 
-(c.) Lalu, saya melakukan routing di Altique/urls.py agar aplikasi main dapat dijalankan, dengan cara menambahkan kode:
-from django.urls import include
-urlpatterns = [
-    path('', include('main.urls')),
-]
+4. Mengapa kita membutuhkan csrf_token saat membuat form di Django? Apa yang dapat terjadi jika kita tidak menambahkan csrf_token pada form Django? Bagaimana hal tersebut dapat dimanfaatkan oleh penyerang?
+    CSRF adalah sebuah serangan cyber pada suatu website tertentu yang di mana penyerang mencoba memanipulasi pengguna untuk mengirimkan permintaan yang tidak diinginkan ke server tanpa sepengetahuannya.
 
-(d.) Kemudian, pada main/models.py, saya membuat model Product dengan atribut name, price, dan description:
-class Product(models.Model):
-    name = models.CharField(max_length=100)
-    price = models.IntegerField()
-    description = models.TextField()
+    Maka dari itu, kita harus membuat csrf_token saat membuat form agar aplikasi kita dapat terlindungi dari serangan tersebut. Kelebihan dari token ini yaitu token akan memastikan bahwa permintaan yang dikirim dari form benar-benar berasal dari pengguna yang sah. Jika token ini tidak ada atau tidak valid, Django akan menolak permintaan tersebut.
 
-(e.) Setelah itu, saya membuat fungsi product_list di main/views.py untuk mengambil semua data produk dari database dan mengirimkannya ke template:
-def product_list(request):
-    products = Product.objects.all()
-    return render(request, 'product_list.html', {'products': products})
+    Jika kita tidak menambahkan csrf_token, aplikasi kita rentan terhadap serangan CSRF, di mana penyerang dapat mengirimkan permintaan yang valid atas nama pengguna tanpa sepengetahuannya, seperti mengirimkan form untuk melakukan pembelian, penghapusan akun, atau mengubah data penting.
 
-(f.) Terakhir, saya membuat routing di main/urls.py untuk fungsi product_list agar dapat diakses:
-from django.urls import path
-from . import views
+5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
 
-urlpatterns = [
-    path('', views.product_list, name='product_list'),
-]
+    (a.) Pertama, saya membuat direktori templates pada direktori utama (root folder) dan membuat file HTML baru bernama base.html
 
-(g.) Tidak lupa untuk melakukan deploy ke PWS setelah saya sudah menge-cek proyek saya berjalan dengan baik.
+    (b.) Lalu, saya menambahkan konten 'templates' pada settings.py yang ada pada direktori proyek (Altique) dan pada baris yang mengandung variabel TEMPLATES. Agar file base.html terdeteksi sebagai file template
 
-2. Buatlah bagan yang berisi request client ke web aplikasi berbasis Django beserta responnya dan jelaskan pada bagan tersebut kaitan antara urls.py, views.py, models.py, dan berkas html.
+    (c.) Lalu mengubah isi kode dari templates/main dengan menambahkan : {% extends 'base.html' %}
+    dimana digunakan agar base.html sebagai template utama
 
-Penjelasan proses req client ke web dapat dilihat pada link berikut :
-https://drive.google.com/file/d/1ZbhggQMgKgRQhvkeKI6X9x0yAadGEu-G/view?usp=drivesdk
+    (d.) Selanjutnya, saya membuat file forms.py yang berisikan code saya untuk membuat struktur forms yang akan menerima data item barang ke dalam file forms.py
 
-3. Jelaskan fungsi git dalam pengembangan perangkat lunak!
-(a.) Version control: Git dapat membuat developer untuk melacak perubahan kode secara historis. Jadi, setiap perubahan yang dilakukan dapat dicatat dan dikembalikan jika diperlukan.
-(b.) Collaborative development: Git dapat membuat beberapa developer untuk bekerja pada proyek yang sama secara bersamaan tanpa saling menimpa pekerjaan satu sama lain. 
-(c.) Branching: Git menyediakan fitur branch yang memungkinkan developer untuk bekerja pada fitur baru atau bug fixes secara independen tanpa mengganggu kode yang ada. Sehingga, dapat meminimalisir ke-error-an kode akibat perubahan yang dilakukan.
-(d.) Backup & Recovery: Dengan menggunakan layanan seperti GitHub atau GitLab, proyek disimpan secara aman di cloud dan dapat diambil kembali jika terjadi masalah.
+    (e.) Lalu, pada file views.py saya menambahkan import render dan juga fungsi baru yaitu add_item_barang. Dan tidak lupa untuk menambahkan path url pada urls.py pada main.
 
-4.  Menurut anda, dari semua framework yang ada, mengapa framework Django dijadikan permulaan pembelajaran pengembangan perangkat lunak?
+    (f.) Kemudian, saya membuat file HTML baru pada main/templates dengan nama add_item_barang.html
 
-Sesuai yang saya ketahui, framework Django menyediakan banyak fitur seperti ORM, form handling, user authentication, dan admin panel, yang memudahkan beginner developer untuk fokus pada logika aplikasi tanpa harus memulai semuanya dari awal. Selain itu, Django menerapkan pola Model-View-Template yang rapi, dimana pola tersebut merupakan pola arsitektur umum dalam pengembangan aplikasi web. Selebihnya, Django adalah salah satu framework yang banyak digunakan di dunia industri saat ini.
+    (g.) Lalu, saya meng-import Httpresponse dan Serializer dan membuat fungsi baru yang nerima parameter req dengan nama show_xml yang akan menembalikan function berupa httpresponse yang isinya hasil query yang sudah di serialisasi menjadi XML.
 
-5. Mengapa model pada Django disebut sebagai ORM?
+    (h.) Kemudian, saya membuat get function untuk menadapatkan id dari XML dan JSOn dengan membuat function show_xml_by_id dan show_json_by_id. Dan tidak lupa menambahkan ke files path urls serta hasil import-an tadi.
 
-Hal tersebut disebabkan karena Django dapat berinteraksi dengan database menggunakan objek Python, bukan dengan query SQL langsung. Pada Django juga memudahkan para developer untuk menggunakan kelas dan objek Python tanpa perlu menulis query SQL secara manual. Dengan ORM, interaksi dengan database lebih aman dari kesalahan sintaks SQL dan juga memastikan data yang konsisten.
+    (i.) Terakhir, saya menjalankan project saya di django terlebih dahulu baru saya membuat request baru di app postman dan mengecek apakah data saya terkirim dengan baik dengan menambahkan id dari input-an web saya.
+
+    (j.) Tidak lupa saya deploy hasil saya ke github dan juga PWS.
