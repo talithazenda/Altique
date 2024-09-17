@@ -1,3 +1,5 @@
+# link gdrive berisikan postman : https://drive.google.com/drive/folders/1QivGeecT-umbTiFUjjYXr-ATrA5_YQWt?usp=sharing 
+
 1. Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
     Data delivery dapat membuat komunikasi yang efektif dan efesien, sehingga data dapat ditransfer secara akurat dan tepat waktu. Selain itu, data delivery juga memastikan bahwa semua bagian platform memiliki informasi yang sama dan data harus disinkronkan secara real-time. Dengan mekanisme data delivery yang baik, data dapat dikirimkan dengan cara yang konsisten, mengurangi risiko kehilangan data atau ketidaksesuaian data.
 
