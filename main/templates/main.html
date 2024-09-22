@@ -10,4 +10,8 @@
     <p>Kelas: {{ class }}</p>
     <a href="{% url 'main:show_items' %}">Lihat Daftar Item</a>
 </div>
+<a href="{% url 'main:logout' %}">
+    <button>Logout</button>
+  </a>
+  <h5>Sesi terakhir login: {{ last_login }}</h5>
 {% endblock %}
