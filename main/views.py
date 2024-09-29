@@ -1,5 +1,5 @@
 import datetime
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect, reverse
 from main.forms import ItemBarangForm
 from main.models import ItemBarang
 from django.http import HttpResponse, HttpResponseRedirect
@@ -13,17 +13,20 @@ from django.contrib.auth.decorators import login_required
 @login_required(login_url='/login')
 def show_main(request):
     items = ItemBarang.objects.filter(user=request.user)
+    # Ambil cookie dengan nilai default jika tidak ada
+    last_login = request.COOKIES.get('last_login', 'Belum pernah login')  # Menambahkan default value
+
     context = {
         'nama_app': 'Altique!',
         'npm': '2306245554',
         'name': request.user.username,
         'class': 'PBP A',
         'items': items,
-        'last_login': request.COOKIES['last_login'],
-        
+        'last_login': last_login,
     }
     return render(request, 'main.html', context)
 
+@login_required(login_url='/login/')  # Redirect ke login jika pengguna tidak terautentikasi
 def show_items(request):
     items = ItemBarang.objects.filter(user=request.user)
     context = {
@@ -31,14 +34,14 @@ def show_items(request):
     }
     return render(request, 'item_list.html', context)
 
+# views.py
 def add_item_barang(request):
     form = ItemBarangForm(request.POST or None)
     if form.is_valid() and request.method == 'POST':
         item_barang = form.save(commit=False)
-        item_barang.user = request.user  # Set pengguna yang sedang login sebagai pengguna yang menciptakan item
+        item_barang.user = request.user  # Associate the item with the current user
         item_barang.save()
-        return redirect('main:show_items')  # Arahkan ke show_items setelah menambah item
-    
+        return redirect('main:show_main')  # Redirect to main page after adding
     context = {'form': form}
     return render(request, 'add_item_barang.html', context)
 
@@ -89,3 +92,26 @@ def logout_user(request):
     response = HttpResponseRedirect(reverse('main:login'))
     response.delete_cookie('last_login')
     return response
+
+def edit_item_barang(request, id):
+    item = ItemBarang.objects.get(pk=id, user=request.user)
+    if request.method == 'POST':
+        form = ItemBarangForm(request.POST, instance=item)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Item updated successfully!')
+            return redirect('main:show_main')  # Redirect to main page after editing
+    else:
+        form = ItemBarangForm(instance=item)
+    
+    context = {
+        'form': form,
+        'item': item,
+    }
+    return render(request, 'edit_item_barang.html', context)
+
+def delete_item_barang(request, id):
+    item = get_object_or_404(ItemBarang, pk=id, user=request.user)
+    item.delete()
+    messages.success(request, "Item successfully deleted.")
+    return redirect('main:show_main')  # Redirect to main page after deletion
