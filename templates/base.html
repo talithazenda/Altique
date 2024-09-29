@@ -1,23 +1,55 @@
 <!-- main/templates/main/base.html -->
-
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <style>
+        body {
+            background-color:  #b79e5f;
+        }  
+        nav {
+            background-color: #A16B56; /* Warna maroon */
+        }
+    </style>  
+    {% block meta %}
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% endblock meta %}
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>{{ nama_app }}</title>
     <!-- Mengimpor font Poppins dari Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Memuat global.css dan styles.css -->
+    <link rel="stylesheet" href="{% static 'main/global.css' %}">
     <link rel="stylesheet" href="{% static 'main/styles.css' %}">
 </head>
 <body>
-    <nav>
-        <a href="{% url 'main:show_main' %}">Home</a> |
-        <a href="{% url 'main:show_items' %}">Items</a> |
-        <a href="{% url 'main:add_item_barang' %}">Add Item</a>
-    </nav>
+    
+    <!-- Navbar hanya muncul jika bukan di halaman login atau register -->
+    {% if not request.path == '/login/' and not request.path == '/register/' %}
+        <nav class="bg-indigo-600 shadow-lg fixed top-0 left-0 z-40 w-full" style="background-color: #A16B56;">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <h1 class="text-2xl font-bold text-center text-white">Altique!</h1>
+                    <div class="hidden md:flex items-center space-x-4">
+                        <a href="{% url 'main:show_main' %}" class="text-white hover:text-gray-300">Home</a>
+                        <a href="{% url 'main:show_items' %}" class="text-white hover:text-gray-300">Items</a>
+                        <a href="{% url 'main:create_item' %}" class="text-white hover:text-gray-300">Add Item</a>
+                        {% if user.is_authenticated %}
+                            <span class="text-gray-300">Welcome, {{ user.username }}</span>
+                            <a href="{% url 'main:logout' %}" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">Logout</a>
+                        {% else %}
+                            <a href="{% url 'main:login' %}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300">Login</a>
+                            <a href="{% url 'main:register' %}" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-300">Register</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+    {% endif %}
+    
     {% block content %}
     {% endblock %}
 </body>
