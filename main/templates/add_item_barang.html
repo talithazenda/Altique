@@ -8,25 +8,44 @@
     <form method="POST" class="space-y-8">
       {% csrf_token %}
 
-      <!-- Input Fields -->
+      <!-- Input Fields for Name -->
       <div class="flex flex-col">
         <label for="name" class="font-semibold text-indigo-700">Name</label>
         <input type="text" name="name" id="name" class="p-3 border border-gray-300 rounded-lg" required>
+        <!-- Display error for name -->
+        {% if form.name.errors %}
+            <p class="text-red-600">{{ form.name.errors }}</p>
+        {% endif %}
       </div>
 
+      <!-- Input Fields for Description -->
       <div class="flex flex-col">
         <label for="description" class="font-semibold text-indigo-700">Description</label>
         <textarea name="description" id="description" class="p-3 border border-gray-300 rounded-lg" required></textarea>
+        <!-- Display error for description -->
+        {% if form.description.errors %}
+            <p class="text-red-600">{{ form.description.errors }}</p>
+        {% endif %}
       </div>
 
+      <!-- Input Field for Price -->
       <div class="flex flex-col">
         <label for="price" class="font-semibold text-indigo-700">Price</label>
         <input type="number" name="price" id="price" class="p-3 border border-gray-300 rounded-lg" required>
+        <!-- Display error for price -->
+        {% if form.price.errors %}
+            <p class="text-red-600">{{ form.price.errors }}</p>
+        {% endif %}
       </div>
 
+      <!-- Input Field for Stock -->
       <div class="flex flex-col">
         <label for="stock" class="font-semibold text-indigo-700">Stock</label>
         <input type="number" name="stock" id="stock" class="p-3 border border-gray-300 rounded-lg" required>
+        <!-- Display error for stock -->
+        {% if form.stock.errors %}
+            <p class="text-red-600">{{ form.stock.errors }}</p>
+        {% endif %}
       </div>
 
       <!-- Radio Buttons for Category with Icons/Images -->
@@ -60,6 +79,10 @@
             <span class="block text-center mt-1 text-red-600">Aksesoris</span>
           </label>
         </div>
+        <!-- Display error for category -->
+        {% if form.category.errors %}
+            <p class="text-red-600">{{ form.category.errors }}</p>
+        {% endif %}
       </div>
 
       <!-- Submit Button -->
