@@ -1,5 +1,4 @@
 # Tugas 4
-
 1. Apa perbedaan antara HttpResponseRedirect() dan redirect()?
     - HttpResponseRedirect() : salah satu class di Django yang langsung mengirim response HTTP 302 yang memberi tahu browser untuk melakukan pengalihan ke URL yang sudah ditentukan. Ini juga salah satu bagian dari django.http, sehingga jika ingin menggunakannya harus import terlebih dahulu. Selain itu, diperlukan URL lengkap  secara eksplisit sebagai argumen untuk menarahkan user.
     - redirect() : fungsi ini yang membuat HttpResponseRedirect atau respons pengalihan lain seperti HttpResponsePermanentRedirectlebih mudah. Fungsi ini adalah bagian dari modul django.shortcuts, sehingga jika ingin menggunakannya harus import terlebih dahulu. Selain itu, redirect() lebih sering digunakan karena kemudahannya dalam menghasilkan URL dan fleksibilitas dalam menentukan jenis pengalihan.
@@ -108,3 +107,28 @@
     (m.) Kemudian, untuk step ui/ux nya saya membuat file css pada root dir dan menghubungankannya ke file base.html. Lalu, melakukan styling design2 di masing2 page html yang menurut saya imut dan lucu xixixi.
     (n.) Selanjutnya, saya menambahkan card product agar dapat ditampilkan produk yang sudah di add oleh user di main page beserta detail dari produk tersebut seperti nama, harga, desc, dan kategori.
     (o.) Selesaii deh, tidak lupa untuk melakukan add-commit-push ke GitHub.
+
+# Tugas 6
+
+1. Jelaskan manfaat dari penggunaan JavaScript dalam pengembangan aplikasi web!
+    - Ddeveloper bisa mengembangkan web mereka agar lebih interaktif dan dinamis seperti animasi, validasi form, dan manipulate DOM secara real time
+    - JS juga di-support oleh seluruh browser modern sehingga bahasa JS cukup universal.
+    - JS berjalan di sisi klien (browser), sehingga mengurangi beban pada server dan meningkatkan kecepatan respons aplikasi web.
+
+2. Jelaskan fungsi dari penggunaan await ketika kita menggunakan fetch()! Apa yang akan terjadi jika kita tidak menggunakan await?
+    Dengan await() kita dapat menghentikan eksekusi fungsi asinkron hingga Promise selesai dan me-return hasilnya. Hal ini bertujuan agar kode dapat lebih muda dibaca dan dipahami. Namun, ketika await() tidak digunakan, maka fetch() akan mengembalikan Promise yang belum selesai, dan kode berikutnya akan dieksekusi sebelum data dari fetch() tersedia. Ini dapat menyebabkan kesalahan karena data yang diharapkan belum siap.
+
+3. Mengapa kita perlu menggunakan decorator csrf_exempt pada view yang akan digunakan untuk AJAX POST?
+    csrf_exempt perlu digunakan karena untuk memudahkan developer dengan AJAX agar tidak perlu menyertakan token csrf dalam setiap permintaan POST. Walaupun begutu, pengimpplementasian csrf_exempt ini juga harus hati-hati karena menonaktifkan perlindungan CSRF dapat membuka celah keamanan jika tidak diimplementasikan dengan benar
+    .
+4. Pada tutorial PBP minggu ini, pembersihan data input pengguna dilakukan di belakang (backend) juga. Mengapa hal tersebut tidak dilakukan di frontend saja?
+    Tentunya, hal ini dilakukan untuk safety karena dengan adanya validasi dan pembersihan di backend dapat mencegah serangan injeksi dan memastikan bahwa data yang masuk ke sistem aman. Selain itu, Backend memiliki kontrol penuh atas proses validasi dan pembersihan, sehingga lebih dapat diandalkan dibandingkan validasi di frontend yang bisa diabaikan oleh user.
+
+6. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
+(a.) Pertama, saya menambahkan import csrf_exempt dan require_POST untuk menambahkan items baru ke basis data dengan AJAX
+(b.) Lalu, saya membuat fungsi baru dengan nama add_item_barang_ajax dengan menambahkan @csrf_exempt
+@require_POST diatas fungsi tersebut.
+(c.) Tidak lupa untuk melakukan routing dengan manambahkan import fungsi tadi ke urls.py dan menambahkan url path nya di url patterns.
+(d.) Kemudian, saya mengubah kode saya dengan menghapus variabel 'items' menjadi 'data' pada fungsi show_json dan show_xml pada views,py
+(e.) Lalu, saya mengubah kode pada main.html dengan menambahkan async function yang memanfaatkan fetch API ke data JSON dan juga membuat fungsi untuk refresh data items secara asinkronus
+(f.) Kemudian, saya mengubah html dari add barang items denagn menambahkan button lagi yang versi mengambil data by AJAX
