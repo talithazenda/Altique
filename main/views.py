@@ -106,28 +106,36 @@ def logout_user(request):
     response.delete_cookie('last_login')
     return response
 
+@csrf_exempt
+@login_required(login_url='/login/')
 def edit_item_barang(request, id):
-    item = ItemBarang.objects.get(pk=id, user=request.user)
-    if request.method == 'POST':
-        form = ItemBarangForm(request.POST, instance=item)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Item updated successfully!')
-            return redirect('main:show_main')  # Redirect to main page after editing
-    else:
-        form = ItemBarangForm(instance=item)
-    
-    context = {
-        'form': form,
-        'item': item,
-    }
-    return render(request, 'edit_item_barang.html', context)
+    try:
+        item = ItemBarang.objects.get(pk=id, user=request.user)
+        if request.method == 'POST':
+            data = json.loads(request.body)
+            item.name = data.get('name', item.name)
+            item.description = data.get('description', item.description)
+            item.price = data.get('price', item.price)
+            item.stock = data.get('stock', item.stock)
+            item.save()
 
+            return JsonResponse({'status': 'success', 'message': 'Item updated successfully!'})
+    except ItemBarang.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Item not found!'}, status=404)
+    return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
+
+@csrf_exempt
+@require_POST
+@login_required(login_url='/login/')
 def delete_item_barang(request, id):
-    item = get_object_or_404(ItemBarang, pk=id, user=request.user)
-    item.delete()
-    messages.success(request, "Item successfully deleted.")
-    return redirect('main:show_main')  # Redirect to main page after deletion
+    try:
+        item = ItemBarang.objects.get(pk=id, user=request.user)
+        if request.method == 'POST':
+            item.delete()
+            return JsonResponse({'status': 'success', 'message': 'Item deleted successfully!'})
+    except ItemBarang.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Item not found!'}, status=404)
+    return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)
 
 @csrf_exempt
 @require_http_methods(["GET", "POST"])
