@@ -93,7 +93,6 @@
 </div>
 
 <script>
-
 async function getItemEntries() {
     const response = await fetch("{% url 'main:show_json' %}");
     const items = await response.json();

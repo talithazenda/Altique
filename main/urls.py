@@ -1,5 +1,5 @@
 from django.urls import path
-from main.views import show_json, show_json_by_id, show_main, show_xml, show_xml_by_id, add_item_barang, show_items, register, login_user, logout_user, edit_item_barang, delete_item_barang, add_item_barang_ajax
+from main.views import show_json, show_json_by_id, show_main, show_xml, show_xml_by_id, add_item_barang, show_items, register, login, logout, edit_item_barang, delete_item_barang, add_item_barang_ajax, items_list
 
 app_name = 'main'
 
@@ -12,9 +12,11 @@ urlpatterns = [
     path('xml/<uuid:id>/', show_xml_by_id, name='show_xml_by_id'),
     path('json/<uuid:id>/', show_json_by_id, name='show_json_by_id'),
     path('register/', register, name='register'),
-    path('login/', login_user, name='login'),
-    path('logout/', logout_user, name='logout'),
     path('edit-item/<uuid:id>/', edit_item_barang, name='edit_item_barang'),
     path('delete-item/<uuid:id>/', delete_item_barang, name='delete_item_barang'),
     path('add-item-ajax/', add_item_barang_ajax, name='add_item_barang_ajax'),  # Consolidate AJAX handling here
+    path('register/', register, name='register'),
+    path('login/', login, name='login'),
+    path('logout/', logout, name='logout'),
+    path('items/', items_list, name='items_list'),
 ]

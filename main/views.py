@@ -1,3 +1,5 @@
+from django.http import JsonResponse
+from .models import ItemBarang
 import datetime
 import json
 from django.shortcuts import get_object_or_404, render, redirect, reverse
@@ -18,6 +20,8 @@ from django.utils.html import strip_tags
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
+from django.contrib.auth.models import User
+from django.contrib.auth import logout as auth_logout
 
 @login_required(login_url='/login')
 def show_main(request):
@@ -68,43 +72,56 @@ def show_json_by_id(request, id):
     data = ItemBarang.objects.filter(pk=id)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
+@csrf_exempt
 def register(request):
-    form = UserCreationForm()
-
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Your account has been successfully created!')
-            return redirect('main:login')
-    context = {'form':form}
-    return render(request, 'register.html', context)
-
-def login_user(request):
     if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            response = HttpResponseRedirect(reverse("main:show_main"))
-            response.set_cookie('last_login', str(datetime.datetime.now()))
-            return response
-        else:
-            messages.error(request, "Invalid username or password. Please try again.")
-    else:
-        form = AuthenticationForm(request)
-    
-    csrf_token = get_token(request)  # Get CSRF token from request
-    print("CSRF Token:", csrf_token)  # Log CSRF token to console for debugging
-    
-    context = {'form': form, 'csrf_token': csrf_token}
-    return render(request, 'login.html', context)
+        data = json.loads(request.body)
+        username = data['username']
+        password1 = data['password1']
+        password2 = data['password2']
 
-def logout_user(request):
-    logout(request)
-    response = HttpResponseRedirect(reverse('main:login'))
-    response.delete_cookie('last_login')
-    return response
+        if password1 != password2:
+            return JsonResponse({"status": False, "message": "Passwords do not match."}, status=400)
+        
+        if User.objects.filter(username=username).exists():
+            return JsonResponse({"status": False, "message": "Username already exists."}, status=400)
+
+        user = User.objects.create_user(username=username, password=password1)
+        user.save()
+
+        return JsonResponse({"username": user.username, "status": 'success', "message": "User created successfully!"}, status=200)
+
+    return JsonResponse({"status": False, "message": "Invalid request method."}, status=400)
+
+from django.contrib.auth import authenticate, login as auth_login
+
+@csrf_exempt
+def login(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        username = data['username']
+        password = data['password']
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            if user.is_active:
+                auth_login(request, user)
+                return JsonResponse({"username": user.username, "status": True, "message": "Login sukses!"}, status=200)
+            return JsonResponse({"status": False, "message": "Akun dinonaktifkan."}, status=401)
+
+        return JsonResponse({"status": False, "message": "Login gagal, periksa kembali email atau kata sandi."}, status=401)
+
+    return JsonResponse({"status": False, "message": "Invalid request method."}, status=400)
+
+@csrf_exempt
+def logout(request):
+    try:
+        username = request.user.username
+        auth_logout(request)
+        return JsonResponse({"username": username, "status": True, "message": "Logout berhasil!"}, status=200)
+    except:
+        return JsonResponse({"status": False, "message": "Logout gagal."}, status=401)
+
 
 @csrf_exempt
 @login_required(login_url='/login/')
@@ -168,3 +185,9 @@ def add_item_barang_ajax(request):
             return JsonResponse({'status': 'error', 'message': str(e)})
     else:
         return render(request, 'add_item_barang_ajax.html')
+
+
+def items_list(request):
+    items = ItemBarang.objects.all().values()
+    items_list = list(items)
+    return JsonResponse(items_list, safe=False)
