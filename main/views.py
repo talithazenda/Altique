@@ -186,8 +186,36 @@ def add_item_barang_ajax(request):
     else:
         return render(request, 'add_item_barang_ajax.html')
 
-
 def items_list(request):
     items = ItemBarang.objects.all().values()
     items_list = list(items)
     return JsonResponse(items_list, safe=False)
+
+@csrf_exempt
+def create_item_flutter(request):
+    if request.method == 'POST':
+        try:
+            # Mengubah request body dari JSON menjadi dictionary
+            data = json.loads(request.body)
+
+            # Membuat instance ItemBarang menggunakan data dari Flutter
+            new_item = ItemBarang.objects.create(
+                name=data.get('name', ''),
+                description=data.get('description', ''),
+                price=int(data.get('price', 0)),
+                stock=int(data.get('stock', 0)),
+                category=data.get('category', 'baju')  # default category jika tidak ada
+            )
+
+            # Menyimpan instance baru ke database
+            new_item.save()
+
+            # Mengirim respons sukses ke aplikasi Flutter
+            return JsonResponse({"status": "success", "message": "Item berhasil dibuat!"}, status=200)
+
+        except Exception as e:
+            # Mengirim respons error jika terjadi kesalahan saat menyimpan data
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+    
+    # Mengirim respons error jika request method bukan POST
+    return JsonResponse({"status": "error", "message": "Invalid request method"}, status=400)

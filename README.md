@@ -132,3 +132,8 @@
 (d.) Kemudian, saya mengubah kode saya dengan menghapus variabel 'items' menjadi 'data' pada fungsi show_json dan show_xml pada views,py
 (e.) Lalu, saya mengubah kode pada main.html dengan menambahkan async function yang memanfaatkan fetch API ke data JSON dan juga membuat fungsi untuk refresh data items secara asinkronus
 (f.) Kemudian, saya mengubah html dari add barang items denagn menambahkan button lagi yang versi mengambil data by AJAX
+
+# TUGAS 9
+
+1. Jelaskan mengapa kita perlu membuat model untuk melakukan pengambilan ataupun pengiriman data JSON? Apakah akan terjadi error jika kita tidak membuat model terlebih dahulu?
+
