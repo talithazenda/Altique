@@ -16,8 +16,6 @@ class ItemBarang(models.Model):
     description = models.TextField()
     stock = models.IntegerField()
     category = models.CharField(max_length=100, default='General')
-    waktu_buat = models.DateTimeField(auto_now_add=True)
-    rating = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
